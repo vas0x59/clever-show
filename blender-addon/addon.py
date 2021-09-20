@@ -155,6 +155,7 @@ def get_rgb_from_object(obj):
     try:
         if len(obj.material_slots) > 0:
             print('material slots true')
+            led_color_found = False
             for slot in obj.material_slots:
                 if "led_color" in slot.name.lower():
                     print('led color')
@@ -164,7 +165,9 @@ def get_rgb_from_object(obj):
                                 alpha = node.inputs[0].default_value[3]
                                 for component in range(3):
                                     rgb[component] = int(node.inputs[0].default_value[component] * alpha * 255)
-                else:
+                                print("get_rgb", rgb)
+                                led_color_found = True
+                elif not led_color_found:
                     print('no led color')
                     for component in range(3):
                         rgb[component] = int(slot.material.diffuse_color[component] * 255)
